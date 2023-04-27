@@ -2,6 +2,7 @@ package Dictionary;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 
 public class TxtWord extends Word {
 
@@ -869,11 +870,19 @@ public class TxtWord extends Word {
     /**
      * The containsFlag method returns true if flags {@link ArrayList} contains flag.
      *
-     * @param flag Flag to be cheked
      * @return true if flags {@link ArrayList} contains flag.
      */
     public boolean containsFlag(String flag){
         return flags.contains(flag);
+    }
+
+    /**
+     Removes any duplicate flags from the list of flags of the word.
+     */
+    public void duplicateFlagCheck() {
+        HashSet<String> flagSet = new HashSet<>(flags);
+        flags.clear();
+        flags.addAll(flagSet);
     }
 
     public String toString(){

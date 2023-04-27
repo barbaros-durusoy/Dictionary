@@ -2,12 +2,9 @@ package Dictionary;
 
 import Dictionary.Trie.Trie;
 import Util.FileUtils;
-
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Locale;
+import java.util.*;
 
 public class TxtDictionary extends Dictionary {
     private HashMap<String, String> misspelledWords = new HashMap<>();
@@ -61,6 +58,22 @@ public class TxtDictionary extends Dictionary {
         this.fileName = fileName;
         loadFromText(FileUtils.getInputStream(fileName));
         loadMisspelledWords(FileUtils.getInputStream(misspelledFileName));
+    }
+
+    /**
+     * Takes a {@link String} name as an input and performs binary search within words {@link ArrayList} and assigns the result
+     * to integer variable middle. If the middle is greater than 0, it returns the item at index middle of words {@link ArrayList}, null otherwise.
+     *
+     * @param name String input.
+     * @return the item at found index of words {@link ArrayList}, null if cannot be found.
+     */
+    public TxtWord getTxtWord(String name) {
+        int middle;
+        middle = Collections.binarySearch(words, new Word(name), comparator);
+        if (middle >= 0) {
+            return (TxtWord) words.get(middle);
+        }
+        return null;
     }
 
     /**
@@ -504,4 +517,18 @@ public class TxtDictionary extends Dictionary {
         return result;
     }
 
+    /**
+     Removes any duplicate flags from all TxtWord objects in the list of words.
+     This method iterates over each Word object in the list of words and checks if it
+     is an instance of TxtWord. If so, it calls the TxtWord object's own
+     duplicateFlagCheck method to remove any duplicate flags from its list of flags.
+     */
+    public void duplicateFlagCheck() {
+        for (Word word : words) {
+            if (word instanceof TxtWord) {
+                TxtWord txtWord = (TxtWord) word;
+                txtWord.duplicateFlagCheck();
+            }
+        }
+    }
 }

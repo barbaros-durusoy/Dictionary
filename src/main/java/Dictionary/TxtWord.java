@@ -885,6 +885,15 @@ public class TxtWord extends Word {
         flags.addAll(flagSet);
     }
 
+    /**
+     * Returns the number of flags of the word {@link ArrayList}.
+     *
+     * @return the number of flags of the word {@link ArrayList}.
+     */
+    public int getFlagCount() {
+        return flags.size();
+    }
+
     public String toString(){
         StringBuilder result = new StringBuilder(super.toString());
         flags.sort(Comparator.naturalOrder());
